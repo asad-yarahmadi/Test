@@ -1,6 +1,6 @@
 import React from 'react';
 import PersonalInfo  from './PersonalInfo';
-
+import HouseHoldInfo  from './HouseHoldInfo';
 
 
 function Forms(props) {
@@ -8,7 +8,8 @@ function Forms(props) {
   return (
     <div>
       <PersonalInfo updateInterview={props.updateInterview} email={props.email} interview={props.interview}/>
-          
+      <HouseHoldInfo updateInterview={props.updateInterview} email={props.email} interview={props.interview}/>
+           
     </div>
   );
 
