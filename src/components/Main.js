@@ -1,67 +1,93 @@
 import React from 'react';
-import Text  from './Text';
-import SelectionInput from './Inputs/SelectionInput';
-import Forms from './Forms';
+import Text from './Text';
+import SimpleSelector from './SimpleSelector';
+import NextPageButton from './NextPageButton';
+import { fetchData } from '../services/api';
+import PersonalInfo from './PersonalInfo';
+import HouseHoldInfo from './HouseHoldInfo';
+import MovingInfo from './Movement';
 
-class Email extends React.Component {
-
+class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.state = {email: '', interview: {}};
-    this.updateInterview = this.updateInterview.bind(this);
+    this.state = {
+      data: [],
+      page: 1,
+      selectedEmail: '',
+      selectedId: '',
+      selectedIndex: -1,
+    };
+    this.onSelectEmail = this.onSelectEmail.bind(this);
+    this.onNextPageButtonClicked = this.onNextPageButtonClicked.bind(this);
   }
 
-  updateInterview(interview) {
-    this.setState({ interview });
-  }
-
-  handleEmailChange(attribute, email) {
-    event.preventDefault();
-    this.setState(function(oldState) {  
-      return {
-        email
-      };
+  componentDidMount() {
+    fetchData().then((data) => {
+      this.setState({
+        data,
+      });
     });
-    fetch(`http://localhost:3000/${email}`, {headers: {"Content-Type": "application/json",'Accept': 'application/json'}, method:'GET'})
-      .then(function(response) {
-        response.json().then(function(interview) {
-          this.setState({
-            interview
-          });
-          
-        }.bind(this));
-      }.bind(this));
-    
+  }
+
+  onNextPageButtonClicked() {
+    if (this.state.page === 6) {
+      this.setState({
+        page: 1,
+      });
+    } else {
+      this.setState({
+        page: this.state.page + 1,
+      });
+    }
+  }
+
+  onSelectEmail(selectedItem) {
+    console.log('selectedItem', selectedItem);
+    const { data } = this.state;
+    let id = '';
+    let index = -1;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].email === selectedItem) {
+        id = data[i].id;
+        index = i;
+      }
+    }
+    this.setState({
+      selectedEmail: selectedItem,
+      selectedId: id,
+      selectedIndex: index,
+    });
   }
 
   render() {
-    const emails = [
-      {value: 'asad.yarahmadi@test.com', label: 'asad.yarahmadi@test.com'},
-      {value: 'Pierre-leo@test.com', label: 'Pierre-leo@test.com'},
-      ]
+    const { data, page, selectedIndex, selectedId } = this.state;
+    const items = [];
+    for (let i = 0; i < data.length; i++) {
+      items.push({
+        label: data[i].email,
+        value: data[i].email,
+      });
+    }
     return (
       <div>
-        <Text title="Welcome"/>
-
-        <form>
-          
-          <SelectionInput
-            title="Choose your email" 
-            name="email"
-            options={emails}
-            value={this.state.email}
-            onChange={this.handleEmailChange}/>
-        </form>
-        
-        {this.state.email==='' ? " " : <Forms updateInterview={this.updateInterview} email={this.state.email} interview={this.state.interview}/>} 
-
+        {page === 1 ? <Text title='Welcome' /> : ''}
+        {page === 2 ? (
+          <SimpleSelector
+            label='Enter you email address'
+            items={items}
+            onChange={this.onSelectEmail}
+          />
+        ) : (
+          ''
+        )}
+        {page === 3 ? <PersonalInfo id={selectedId} /> : ''}
+        {page === 4 ? <HouseHoldInfo id={selectedId} /> : ''}
+        {page === 5 ? <MovingInfo id={selectedId} /> : ''}
+        {page === 6 ? <div>Completed</div> : ''}
+        <NextPageButton onClick={this.onNextPageButtonClicked} />
       </div>
-    
     );
-
   }
-
 }
 
-export default Email;
+export default Main;

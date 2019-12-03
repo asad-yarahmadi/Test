@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "email": "asanyarahmadi@gmail.com",
+      "personalInfo": {
+        "Name": "",
+        "Age": 30,
+        "Occupation": "FullTimeJob",
+        "Sex": "Male"
+      },
+      "houseHold": {
+        "coordinates": [
+          -73.45383648681522,
+          45.33496520802248
+        ]
+      },
+      "movment": {
+        "movmentReason": "Study",
+        "origin": [
+          -73.51511959838763,
+          45.33351713488051
+        ],
+        "destination": [
+          -73.52644924926629,
+          45.30672110287881
+        ],
+        "arrival": "",
+        "departure": "",
+        "transportationType": "truck"
+      }
+    }
+  ]
+}

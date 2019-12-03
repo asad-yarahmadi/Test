@@ -1,91 +1,125 @@
 import React from 'react';
 import Label from './Label';
-import SelectionInput from './Inputs/SelectionInput';
-import StringInput from './Inputs/StringInput';
-import DateInput from './Inputs/DateInput';
-import MapInput from './Inputs/MapInput'
+import SimpleSelector from './SimpleSelector';
+import SimpleTextField from './SimpleTextField';
+import DateField from './DateField';
+import SimpleButton from './SimpleButton';
+import MapBox from './MapBox';
+import { saveData } from '../services/api';
 
-class Deplacement1 extends React.Component {
-    
+class Movement extends React.Component {
   constructor() {
     super();
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      movmentReason: null,
+      origin: null,
+      destination: null,
+      arrival: '',
+      departure: '',
+      transportationType: '',
+    };
+    this.handleChangeMovment = this.handleChangeMovment.bind(this);
+    this.handleChangeOrigin = this.handleChangeOrigin.bind(this);
+    this.handleChangeDestination = this.handleChangeDestination.bind(this);
+    this.onSaveClicked = this.onSaveClicked.bind(this);
+    this.handleChangeTransportationType = this.handleChangeTransportationType.bind(
+      this,
+    );
   }
 
-
-  handleChange(attribute, value) {
-
-  const     interview  = this.props.interview;
-  interview[attribute] = value;
-
-  this.props.updateInterview(interview);
-    fetch(`http://localhost:3000/${this.props.email}` , {
-      headers: {"Content-Type": "application/json"},
-      method : 'PUT',
-      body   : JSON.stringify(interview)
+  handleChangeMovment(value) {
+    this.setState({
+      movmentReason: value,
     });
   }
 
-   render() {
+  handleChangeOrigin(value) {
+    this.setState({
+      origin: value,
+    });
+  }
 
-     return (
-       <div>
+  handleChangeDestination(value) {
+    this.setState({
+      destination: value,
+    });
+  }
 
-         <h3>Informations du déplacement 1 :</h3>
-         
-         <form >
-             
-           <SelectionInput 
-           title="Quel est votre motif pour le déplacement?" name="motifPourDeplacement1" value={this.props.interview.motifPourDeplacement1} 
-           options={[
-            {value: 'Travail', label: 'Travail'},
-            {value: 'Étude', label: 'Etudes'},
-            {value: 'Loisir', label: 'Loisir'},
-            {value: 'Accompagnement', label: 'Accompagnement'},
-            {value: 'Autre', label: 'Autres'}]}
-         
-           onChange={this.handleChange}/>
-           
-           <Label title="Cliquez sur la carte votre lieu d'origine"/>
-           <MapInput name="lieuOrigine1" value={this.props.interview.lieuOrigine1} onChange={this.handleChange}/>
+  handleChangeArrival(value) {
+    this.setState({
+      arrival: value,
+    });
+  }
 
-           <Label title="Cliquez sur la carte votre lieu de destination"/>
-           <MapInput name="lieuDestination1" value={this.props.interview.lieuDestination1} onChange={this.handleChange}/> 
+  handleChangeDeparture(value) {
+    this.setState({
+      departure: value,
+    });
+  }
 
-           <Label title="Indiquez votre heure de départ"/>
-           <DateInput name="heureDepart1" value={this.props.interview.heureDepart1} onChange={this.handleChange}/>
-           
-           <Label title="Indiquez votre heure d'arrivée"/>
-           <DateInput name="heureArrivee1" value={this.props.interview.heureArrivee1} onChange={this.handleChange}/>
-           
-           <SelectionInput 
-            title="Quel mode de transport avez-vous emprunté?" name="modeDeTransport1" value={this.props.interview.modeDeTransport1} 
-            options={[
-              {value: 'Automobile', label: 'Automobile'},
-              {value: 'Transport en commun', label: 'Transport en commun'},
-              {value: 'Bicyclette', label: 'Bicyclette'},
-              {value: 'Marche', label: 'Marche'},
-              {value: 'Autre', label: 'Autres'}]} 
-            onChange={this.handleChange}
-           />
-           <Label title="Si vous avez pris les transports en commun, indiquez les lignes utilisées?"/>
-           <StringInput name="transportCommun1" value={this.props.interview.transportCommun1} onChange={this.handleChange}/> 
-         </form>
-       </div>
+  handleChangeTransportationType(value) {
+    this.setState({
+      transportationType: value,
+    });
+  }
 
-     );
+  onSaveClicked(e) {
+    e.preventDefault();
+    const { id } = this.props;
+    saveData(id, {
+      movment: this.state,
+    });
+  }
 
-   }
+  render() {
+    return (
+      <div>
+        <form>
+          <SimpleSelector
+            label='The reason of movement'
+            items={[
+              { label: 'Study', value: 'Study' },
+              { label: 'Job', value: 'Job' },
+            ]}
+            onChange={this.handleChangeMovment}
+          />
 
- }
+          <Label title='Select your origin place' />
+          <MapBox onChange={this.handleChangeOrigin} />
 
- export default Deplacement1;
+          <Label title='Select your desitnation' />
+          <MapBox onChange={this.handleChangeDestination} />
 
+          <Label title='select your time arrival' />
+          <DateField
+            value={this.state.arrival}
+            onChange={this.handleChangeArrival}
+          />
+          <br />
+          <Label title='select your time departure' />
+          <DateField
+            value={this.state.departure}
+            onChange={this.handleChangeDeparture}
+          />
+          <br />
 
+          <SimpleSelector
+            label='what kind of transportation you used?'
+            items={[
+              { label: 'car', value: 'car' },
+              { label: 'truck', value: 'truck' },
+              {
+                label: 'public transportation',
+                value: 'public transportation',
+              },
+            ]}
+            onChange={this.handleChangeTransportationType}
+          />
+          <SimpleButton label='Save' onClick={this.onSaveClicked} />
+        </form>
+      </div>
+    );
+  }
+}
 
-
-
-
- 
-
- 
+export default Movement;
