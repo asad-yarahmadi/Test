@@ -8,7 +8,7 @@
   * ```yarn dev-server```
 * To start the json server: 
   * ```yarn json-server --watch ./server/data.json```
-* Program hosted in: 
+* Program is hosted in: 
   * ```http://localhost:8081/```
 * Author:
   * Asad Yarahamdi
