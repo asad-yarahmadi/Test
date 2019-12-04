@@ -2,25 +2,21 @@ TP2 : Mobility Survey
 
 > It is a multi steps form and confirmation.
 
-## Quick Start
+## Install dependencies
 
-# Install dependencies
 write "yarn" in git bash or powershell
 
-# Serve on localhost:8081
-yarn
+## Serve on localhost:8081
 
-#start for production
+start production
 
-yarn dev-server
-```
-## App Info
+Just write yarn dev-server
 
-### Author
+Author:
 
 Asad Yarahmadi
 
-### Version
+Version
 
 1.0.0
 
