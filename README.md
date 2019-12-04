@@ -1,31 +1,29 @@
-# React Step Form
+TP2 : Mobility Survey
 
-> Form with multiple steps and confirmation. Frontend only, no API. Uses Material UI
+> It is a multi steps form and confirmation.
 
 ## Quick Start
 
-```bash
 # Install dependencies
-npm install
+write "yarn" in git bash or powershell
 
-# Serve on localhost:3000
-npm start
+# Serve on localhost:8081
+yarn
 
-# Build for production
-npm run build
+#start for production
+
+yarn dev-server
 ```
-
 ## App Info
 
 ### Author
 
-Brad Traversy
-[Traversy Media](http://www.traversymedia.com)
+Asad Yarahmadi
 
 ### Version
 
 1.0.0
 
-### License
 
-This project is licensed under the MIT License
+
+
