@@ -4,7 +4,7 @@ TP2 : Mobility Survey
 
 ## Install dependencies
 
-write "yarn" in git bash or powershell to all dependncies which are Webpack, json-server, Mapbox, CSS, and React.
+write "yarn" in git bash or powershell to install all dependncies which are Webpack, json-server, Mapbox, CSS, and React.
 
 ## Serve on localhost:8081
 
